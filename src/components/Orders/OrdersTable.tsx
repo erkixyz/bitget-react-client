@@ -10,7 +10,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import type { Order } from '../../types/trading.types';
 import {
-  formatPrice,
   formatTime,
   formatOrderSize,
   calculateFillPercent,
@@ -72,37 +71,6 @@ export const OrdersTable = ({ orders, isLoading }: OrdersTableProps) => {
             fontWeight: 600,
           }}
         />
-      ),
-    },
-    {
-      field: 'type',
-      headerName: 'Type',
-      width: 80,
-      renderCell: (params: GridRenderCellParams) => (
-        <Chip
-          label={params.value.toUpperCase()}
-          size="small"
-          variant="outlined"
-          sx={{ fontWeight: 500 }}
-        />
-      ),
-    },
-    {
-      field: 'price',
-      headerName: 'Price',
-      width: 120,
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-          ${formatPrice(params.value)}
-        </Typography>
-      ),
-    },
-    {
-      field: 'amount',
-      headerName: 'Amount',
-      width: 120,
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2">{formatPrice(params.value, 6)}</Typography>
       ),
     },
     {
@@ -189,8 +157,15 @@ export const OrdersTable = ({ orders, isLoading }: OrdersTableProps) => {
   ];
 
   return (
-    <Card>
-      <CardContent>
+    <Card
+      elevation={3}
+      sx={{
+        borderRadius: 3,
+        background: '#fff',
+        boxShadow: '0 2px 12px 0 rgba(60,72,88,0.08)',
+      }}
+    >
+      <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
         <Box
           sx={{
             display: 'flex',
@@ -199,17 +174,23 @@ export const OrdersTable = ({ orders, isLoading }: OrdersTableProps) => {
             mb: 2,
           }}
         >
-          <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ fontWeight: 700, letterSpacing: 1 }}
+          >
             Active Orders
           </Typography>
           <Chip
             label={`${safeOrders.length} orders`}
             size="small"
-            color="primary"
-            variant="outlined"
+            sx={{
+              bgcolor: 'grey.100',
+              color: 'text.secondary',
+              fontWeight: 500,
+            }}
           />
         </Box>
-
         <Box sx={{ height: 400, width: '100%' }}>
           <DataGrid
             rows={safeOrders}
@@ -223,8 +204,22 @@ export const OrdersTable = ({ orders, isLoading }: OrdersTableProps) => {
             }}
             disableRowSelectionOnClick
             sx={{
+              borderRadius: 2,
+              background: '#fff',
+              fontSize: '1rem',
+              '& .MuiDataGrid-columnHeaders': {
+                background: 'rgba(0,0,0,0.02)',
+                fontWeight: 700,
+                fontSize: '1rem',
+              },
               '& .MuiDataGrid-row:hover': {
                 backgroundColor: 'rgba(25, 118, 210, 0.04)',
+              },
+              '& .MuiDataGrid-cell': {
+                borderBottom: '1px solid #f0f0f0',
+              },
+              '& .MuiDataGrid-footerContainer': {
+                background: 'rgba(0,0,0,0.01)',
               },
             }}
           />

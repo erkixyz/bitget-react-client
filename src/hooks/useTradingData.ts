@@ -43,9 +43,10 @@ export const useTradingData = () => {
     } else if (
       data &&
       typeof data === 'object' &&
-      Array.isArray((data as any).activeOrders)
+      'activeOrders' in data &&
+      Array.isArray((data as { activeOrders?: Order[] }).activeOrders)
     ) {
-      orders = (data as any).activeOrders;
+      orders = (data as { activeOrders: Order[] }).activeOrders;
     } else {
       console.warn(
         '[WARN] handleOrdersUpdate: No orders found in payload:',

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Grid, Alert, Snackbar } from '@mui/material';
-import DashboardLayout from './DashboardLayout';
+import { DashboardLayout } from './DashboardLayout';
 import TickerCard from '../Ticker/TickerCard';
 import OrdersTable from '../Orders/OrdersTable';
 import PositionsTable from '../Positions/PositionsTable';

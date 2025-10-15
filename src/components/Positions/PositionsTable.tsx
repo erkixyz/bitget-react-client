@@ -168,8 +168,15 @@ export const PositionsTable = ({
   ];
 
   return (
-    <Card>
-      <CardContent>
+    <Card
+      elevation={3}
+      sx={{
+        borderRadius: 3,
+        background: '#fff',
+        boxShadow: '0 2px 12px 0 rgba(60,72,88,0.08)',
+      }}
+    >
+      <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
         <Box
           sx={{
             display: 'flex',
@@ -178,27 +185,28 @@ export const PositionsTable = ({
             mb: 2,
           }}
         >
-          <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ fontWeight: 700, letterSpacing: 1, color: '#222' }}
+          >
             Open Positions
           </Typography>
-
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Chip
               label={`${safePositions.length} positions`}
               size="small"
-              color="primary"
-              variant="outlined"
+              sx={{ bgcolor: 'grey.100', color: '#222', fontWeight: 500 }}
             />
-
             <Box sx={{ textAlign: 'right' }}>
-              <Typography variant="caption" color="text.secondary">
+              <Typography variant="caption" sx={{ color: '#222' }}>
                 Total PnL
               </Typography>
               <Typography
                 variant="body2"
                 sx={{
                   color: getChangeColor(totalPnL),
-                  fontWeight: 600,
+                  fontWeight: 700,
                   display: 'flex',
                   alignItems: 'center',
                   gap: 0.5,
@@ -214,7 +222,6 @@ export const PositionsTable = ({
             </Box>
           </Box>
         </Box>
-
         <Box sx={{ height: 400, width: '100%' }}>
           <DataGrid
             rows={safePositions}
@@ -228,8 +235,26 @@ export const PositionsTable = ({
             }}
             disableRowSelectionOnClick
             sx={{
+              borderRadius: 2,
+              background: '#fff',
+              color: '#222',
+              fontSize: '1rem',
+              '& .MuiDataGrid-columnHeaders': {
+                background: 'rgba(0,0,0,0.02)',
+                fontWeight: 700,
+                fontSize: '1rem',
+                color: '#222',
+              },
               '& .MuiDataGrid-row:hover': {
                 backgroundColor: 'rgba(25, 118, 210, 0.04)',
+              },
+              '& .MuiDataGrid-cell': {
+                borderBottom: '1px solid #f0f0f0',
+                color: '#222',
+              },
+              '& .MuiDataGrid-footerContainer': {
+                background: 'rgba(0,0,0,0.01)',
+                color: '#222',
               },
             }}
           />
