@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   AppBar,
   Toolbar,
@@ -6,25 +7,21 @@ import {
   Container,
   IconButton,
   Chip,
+  InputBase,
+  Badge,
+  Avatar,
+  alpha,
 } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import DashboardSidebar from './DashboardSidebar';
-import {
-  Refresh as RefreshIcon,
-  TrendingUp as TrendingUpIcon,
-  AccountCircle as AccountCircleIcon,
-} from '@mui/icons-material';
-
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-  isConnected: boolean;
-  onRefresh?: () => void;
-}
 
 export const DashboardLayout = ({
   children,
-  isConnected,
-  onRefresh,
-}: DashboardLayoutProps) => {
+}: {
+  children: React.ReactNode;
+}) => {
   return (
     <Box
       sx={{
@@ -44,76 +41,79 @@ export const DashboardLayout = ({
       >
         <AppBar
           position="static"
-          elevation={2}
+          elevation={0}
           sx={{
-            background: '#fff',
-            color: 'text.primary',
+            background: '#2563eb',
+            color: '#fff',
             boxShadow: '0 2px 12px 0 rgba(60,72,88,0.08)',
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
         >
-          <Toolbar sx={{ minHeight: 56, px: { xs: 1, sm: 2 } }}>
-            <TrendingUpIcon
-              sx={{ mr: 1, color: 'primary.main', fontSize: 32 }}
-            />
-            <Typography
-              variant="h6"
-              component="div"
+          <Toolbar sx={{ minHeight: 64, px: { xs: 2, sm: 4 } }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <img
+                src="/logo192.png"
+                alt="Logo"
+                style={{ height: 32, marginRight: 8 }}
+              />
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 900, letterSpacing: 1, color: '#fff' }}
+              >
+                Mira PRO
+              </Typography>
+              <Chip
+                label="PRO"
+                size="small"
+                sx={{
+                  ml: 1,
+                  bgcolor: '#22c55e',
+                  color: '#fff',
+                  fontWeight: 700,
+                  fontSize: '0.8rem',
+                }}
+              />
+            </Box>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box
               sx={{
-                flexGrow: 1,
-                fontWeight: 800,
-                letterSpacing: 1,
-                fontSize: { xs: '1.1rem', sm: '1.25rem' },
-                color: '#222',
+                background: alpha('#fff', 0.15),
+                borderRadius: 2,
+                px: 2,
+                py: 0.5,
+                display: 'flex',
+                alignItems: 'center',
+                minWidth: 220,
+                maxWidth: 320,
+                mr: 3,
               }}
             >
-              Bitget Trading Dashboard
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Chip
-                label={isConnected ? 'Connected' : 'Disconnected'}
-                icon={
-                  <Box
-                    component="span"
-                    sx={{
-                      display: 'inline-block',
-                      width: 10,
-                      height: 10,
-                      borderRadius: '50%',
-                      bgcolor: isConnected ? 'success.main' : 'error.main',
-                      mr: 1,
-                    }}
-                  />
-                }
-                sx={{
-                  bgcolor: isConnected ? 'success.light' : 'error.light',
-                  color: '#222',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  px: 1.5,
-                  height: 32,
-                  letterSpacing: 0.5,
-                  boxShadow: 'none',
-                  border: '1px solid #e0e3e7',
-                }}
-                size="medium"
+              <InputBase
+                placeholder="Search topics..."
+                sx={{ color: '#fff', width: '100%' }}
+                inputProps={{ 'aria-label': 'search' }}
               />
-              <IconButton
-                sx={{ ml: 1, color: '#222' }}
-                onClick={onRefresh}
-                title="Refresh Data"
-                size="small"
-              >
-                <RefreshIcon fontSize="medium" />
-              </IconButton>
-              <IconButton
-                title="Account"
-                size="small"
-                sx={{ ml: 1, color: '#222' }}
-              >
-                <AccountCircleIcon fontSize="medium" />
-              </IconButton>
             </Box>
+            <IconButton color="inherit" sx={{ ml: 1 }}>
+              <Badge badgeContent={3} color="error">
+                <ChatBubbleIcon />
+              </Badge>
+            </IconButton>
+            <IconButton color="inherit" sx={{ ml: 1 }}>
+              <Badge badgeContent={7} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton color="inherit" sx={{ ml: 1 }}>
+              <Avatar
+                src="/avatar.png"
+                alt="User"
+                sx={{ width: 32, height: 32 }}
+              />
+            </IconButton>
+            <IconButton color="inherit" sx={{ ml: 1 }}>
+              <PowerSettingsNewIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Container maxWidth="lg" sx={{ py: 3, flex: 1 }}>

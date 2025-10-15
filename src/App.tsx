@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { theme } from './theme/theme';
-import Dashboard from './components/Dashboard/Dashboard';
+import { Dashboard } from './components/Dashboard/Dashboard';
 
 function App() {
   return (

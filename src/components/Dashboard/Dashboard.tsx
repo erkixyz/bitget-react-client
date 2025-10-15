@@ -1,81 +1,130 @@
-import { useEffect } from 'react';
-import { Grid, Alert, Snackbar } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Card,
+  CardContent,
+  Typography,
+  Alert,
+  Snackbar,
+} from '@mui/material';
+import BarChartPlaceholder from './BarChartPlaceholder';
+import PieChartPlaceholder from './PieChartPlaceholder';
+import MapPlaceholder from './MapPlaceholder';
 import { DashboardLayout } from './DashboardLayout';
 import TickerCard from '../Ticker/TickerCard';
 import OrdersTable from '../Orders/OrdersTable';
 import PositionsTable from '../Positions/PositionsTable';
-import LoadingSpinner from '../common/LoadingSpinner';
 import { useTradingData } from '../../hooks/useTradingData';
 
 export const Dashboard = () => {
-  const {
-    ticker,
-    orders,
-    positions,
-    isConnected,
-    isLoading,
-    error,
-    loadInitialData,
-    refreshData,
-    clearError,
-  } = useTradingData();
-
-  // Load initial data on component mount
-  useEffect(() => {
-    loadInitialData();
-  }, [loadInitialData]);
-
-  const handleRefresh = () => {
-    refreshData();
-  };
-
-  const handleCloseError = () => {
-    clearError();
-  };
-
-  if (isLoading && !ticker && orders.length === 0 && positions.length === 0) {
-    return (
-      <DashboardLayout isConnected={isConnected} onRefresh={handleRefresh}>
-        <LoadingSpinner message="Loading trading data..." minHeight="60vh" />
-      </DashboardLayout>
-    );
-  }
-
+  const { ticker, orders, positions, isLoading, error } = useTradingData();
   return (
-    <DashboardLayout isConnected={isConnected} onRefresh={handleRefresh}>
-      <Grid container spacing={3}>
-        {/* Ticker Section */}
-        <Grid size={{ xs: 12 }}>
-          <TickerCard ticker={ticker} isLoading={isLoading} />
-        </Grid>
-
-        {/* Orders and Positions Tables */}
-        <Grid size={{ xs: 12, lg: 6 }}>
-          <OrdersTable orders={orders} isLoading={isLoading} />
-        </Grid>
-
-        <Grid size={{ xs: 12, lg: 6 }}>
-          <PositionsTable positions={positions} isLoading={isLoading} />
-        </Grid>
-      </Grid>
-
+    <DashboardLayout>
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell>
+              <Card
+                sx={{
+                  borderRadius: 3,
+                  boxShadow: 2,
+                  minWidth: 260,
+                  minHeight: 180,
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} mb={2}>
+                    Ticker
+                  </Typography>
+                  <TickerCard ticker={ticker} isLoading={isLoading} />
+                </CardContent>
+              </Card>
+            </TableCell>
+            <TableCell>
+              <Card
+                sx={{
+                  borderRadius: 3,
+                  boxShadow: 2,
+                  minWidth: 260,
+                  minHeight: 180,
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} mb={2}>
+                    Aktiivsus
+                  </Typography>
+                  <BarChartPlaceholder />
+                </CardContent>
+              </Card>
+            </TableCell>
+            <TableCell>
+              <Card
+                sx={{
+                  borderRadius: 3,
+                  boxShadow: 2,
+                  minWidth: 260,
+                  minHeight: 180,
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} mb={2}>
+                    Külastajad
+                  </Typography>
+                  <PieChartPlaceholder />
+                </CardContent>
+              </Card>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={2}>
+              <Card sx={{ borderRadius: 3, boxShadow: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} mb={2}>
+                    Tellimused
+                  </Typography>
+                  <OrdersTable orders={orders} isLoading={isLoading} />
+                </CardContent>
+              </Card>
+            </TableCell>
+            <TableCell>
+              <Card sx={{ borderRadius: 3, boxShadow: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} mb={2}>
+                    Positsioonid
+                  </Typography>
+                  <PositionsTable positions={positions} isLoading={isLoading} />
+                </CardContent>
+              </Card>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={3}>
+              <Card sx={{ borderRadius: 3, boxShadow: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} mb={2}>
+                    Reaalajas kaart
+                  </Typography>
+                  <MapPlaceholder />
+                </CardContent>
+              </Card>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
       {/* Error Snackbar */}
-      <Snackbar
-        open={!!error}
-        autoHideDuration={6000}
-        onClose={handleCloseError}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert
-          onClose={handleCloseError}
-          severity="error"
-          sx={{ width: '100%' }}
+      {error && (
+        <Snackbar
+          open={!!error}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         >
-          {error}
-        </Alert>
-      </Snackbar>
+          <Alert severity="error" sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+      )}
     </DashboardLayout>
   );
 };
-
-export default Dashboard;
